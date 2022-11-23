@@ -410,7 +410,7 @@ annotation('textbox',[ddx+dx+bardX/2+spaceX-eps y_arr+0.008 bardX/2-2*spaceX tes
 
 print([fig_location f 'Figure3'],'-dpng','-r300');
 save(pwClrMapFile,'bacPwsClrMap','phgPwsClrMap','bac_pw','phg_pw');
-
+print([figure_location f 'Figure3'],'-depsc2')
 % save source data
 writetable(struct2table(sourceDataTblA),['output_files' f 'Fig3A.xlsx'])
 writetable(struct2table(sourceDataTblB),['output_files' f 'Fig3B.xlsx'])
@@ -598,5 +598,5 @@ annotation('arrow',[ddx+dx+bardX/2+spaceX ddx+dx+bardX-spaceX],[y_arr y_arr])
 annotation('textbox',[ddx+dx+bardX/2+spaceX-eps y_arr+0.005 bardX/2-2*spaceX test_ht],'String','Higher Infectivity','HorizontalAlignment','center','EdgeColor','none')
 
 print([fig_location f 'Figure3_fullMutationNames'],'-dpng','-r300');
-print([figure_location f 'Figure3'],'-depsc2')
+
 
