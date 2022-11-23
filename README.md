@@ -1,6 +1,5 @@
 
-# Multistep diversification in spatiotemporal bacterial-phage coevolution
-# Data analysis pipeline  
+# Multistep diversification in spatiotemporal bacterial-phage coevolution: Data analysis pipeline  
 
 System requirements:
 All scripts were coded with MATLAB R2020a on a Windows 10 Enterprise 64-bit Operating System. 
