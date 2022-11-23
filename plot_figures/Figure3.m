@@ -201,12 +201,15 @@ set(gcf,'units','centimeters','Position',[1 2 18 21]);
 ax_bar_Bac = axes('units','centimeters','position',...
     [margin_x margin_y+(barH*(numel(phgMutInd)-numel(bacMutInd)))...
     barW barH*numel(bacMutInd)]);
+
 for i = 1:numel(bacMutInd)
     bhB = barh(i,sortedCoeffsNo0(bacMutInd(i)));
+    
     pw = bac_pw_all_multi{i};
     xMutNm = pred_nms{bacMutInd(i)};
     xMutNmSplit = strsplit(xMutNm,'+');
     mutNameText = [];
+    mutNameTextSource = [];
     if numel(xMutNmSplit)<4
         for sm = 1:numel(xMutNmSplit)
             if size(pw,1)==1
@@ -217,14 +220,17 @@ for i = 1:numel(bacMutInd)
             nimcerMutNm = xMutNmSplit{sm};
             mutNameText = [mutNameText '\color[rgb]{' ...
                 sprintf('%1.2f,%1.2f,%1.2f', bacPwsClrMap(strcmp(pwNm,bac_pw),:)) '}' nimcerMutNm ,'+'];
+            mutNameTextSource = [mutNameTextSource ,nimcerMutNm ,'+'];
 
         end
     else
         mutNameText = '\color[rgb]{0,0,0}4 mutations or more ';
+        mutNameTextSource = '4 mutations or more ';
         bac_pw_all_multi{i} = {''};
 
     end
     mutNameText = mutNameText(1:end-1); % remove ',' from end
+    mutNameTextSource = mutNameTextSource(1:end-1);
     if size(pw,1)==1 % if it's a single mutation          
         bhB.FaceColor = bacPwsClrMap(strcmp(pw,bac_pw),:);
         if find(strcmp(pw,bac_pw))>10 && ~strcmp(pw,'multiple')
@@ -242,6 +248,8 @@ for i = 1:numel(bacMutInd)
         align = 'right';
     end
     text(x,i,mutNameText,'HorizontalAlignment',align,'fontsize',mutfs)
+    sourceDataTblA(i).MutNm = mutNameTextSource;
+    sourceDataTblA(i).Mutcoeff = sortedCoeffsNo0(bacMutInd(i));
     hold on
 end   
 set(gca,'YTick',[],'YTickLabel',[],'FontSize',label_fs,...
@@ -273,6 +281,7 @@ for i = 1:numel(phgMutInd)
     xMutNm = pred_nms{phgMutInd(i)};
     xMutNmSplit = strsplit(xMutNm,'+');
     mutNameText = [];
+    mutNameTextSource = [];
     if numel(xMutNmSplit)<4
         for sm = 1:numel(xMutNmSplit)
             if size(pw,1)==1
@@ -283,12 +292,15 @@ for i = 1:numel(phgMutInd)
             nimcerMutNm = xMutNmSplit{sm};
             mutNameText = [mutNameText '\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f',...
                 phgPwsClrMap(strcmp(pwNm,phg_pw),:)) '}' nimcerMutNm '+'];
+            mutNameTextSource = [mutNameTextSource nimcerMutNm '+'];
         end
     else
     mutNameText = '\color[rgb]{0,0,0}4 mutations or more ';
+    mutNameTextSource = '4 mutations or more ';
     phg_pw_all_multi{i} = {''};
     end 
     mutNameText = mutNameText(1:end-1); % remove ',' from end
+    mutNameTextSource = mutNameTextSource(1:end-1);
     if size(pw,1)==1 % if it's a single mutation          
         bhP.FaceColor = phgPwsClrMap(strcmp(pw,phg_pw),:);
     else % if mutations appear together
@@ -303,6 +315,8 @@ for i = 1:numel(phgMutInd)
     end
     text(x,i,mutNameText,'HorizontalAlignment',align,'fontsize',mutfs)
     hold on
+    sourceDataTblB(i).MutNm = mutNameTextSource;
+    sourceDataTblB(i).Mutcoeff = sortedCoeffsNo0(phgMutInd(i));
 end 
 set(gca,'YTick',[],'YTickLabel',...
     [],'FontSize',label_fs,'XTick',-(xlim_val_phg):0.1:(xlim_val_phg),...
@@ -397,6 +411,9 @@ annotation('textbox',[ddx+dx+bardX/2+spaceX-eps y_arr+0.008 bardX/2-2*spaceX tes
 print([fig_location f 'Figure3'],'-dpng','-r300');
 save(pwClrMapFile,'bacPwsClrMap','phgPwsClrMap','bac_pw','phg_pw');
 
+% save source data
+writetable(struct2table(sourceDataTblA),['output_files' f 'Fig3A.xlsx'])
+writetable(struct2table(sourceDataTblB),['output_files' f 'Fig3B.xlsx'])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% print Figure 3 with full mutation names for reviewer comments:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

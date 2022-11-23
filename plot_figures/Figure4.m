@@ -42,10 +42,10 @@ else
     load([anaFolder_opgG f imgsOpgGfn]);
 end
 %% Get drop centers from drop cropping:
-if ~exist([anaFolder_opgG f 'drops_centers.mat'],'file')
-    get_drops_centers([imgFolder_opgG f],[anaFolder_opgG f],1)
+if ~exist([imgFolder_opgG f 'drops_centers.mat'],'file')
+    get_drops_centers_flp([imgFolder_opgG f],[anaFolder_opgG f],1)
 else 
-    load([anaFolder_opgG f 'drops_centers.mat'])
+    load([imgFolder_opgG f 'drops_centers.mat'])
 end
 
 % Chosen dilution from each phage:
@@ -155,7 +155,7 @@ for phg = 1:numel(plotPhg)
         ax.XTick = [];
         ax.YTick = [];
         tit1 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(1,:)) '}' imgTitsY{bac}{1}];
-        tit2 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(2,:)) '}'  imgTitsY{bac}{2}];
+        tit2 = ['\it\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(2,:)) '}'  imgTitsY{bac}{2}];
         t = title({tit1,tit2},'fontsize',10, 'Interpreter', 'tex');
     end 
 end
@@ -197,10 +197,10 @@ else
     load([anaFolder_mlaA f imgsMlaAfn]);
 end
 %% Get drop centers from drop cropping:
-if ~exist([anaFolder_mlaA f 'drops_centers.mat'],'file')
-    get_drops_centers([imgFolder_mlaA f],[anaFolder_mlaA f],flip)
+if ~exist([imgFolder_mlaA f 'drops_centers.mat'],'file')
+    get_drops_centers_flp([imgFolder_mlaA f],[anaFolder_mlaA f],flip)
 else 
-    load([anaFolder_mlaA f 'drops_centers.mat'])
+    load([imgFolder_mlaA f 'drops_centers.mat'])
 end
 
 %% Chosen dilution from each phage:
@@ -240,7 +240,7 @@ for phg = 1:numel(plotPhg)
     imagesc(crpAdjImg,'Parent',ax);
     ax.XTick = [];
     ax.YTick = [];
-    tit1 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(1,:)) '}' imgTitsWT{1}];
+    tit1 = ['\it\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(1,:)) '}' imgTitsWT{1}];
     tit2 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(2,:)) '}'  imgTitsWT{2}];
     t = title({tit1,tit2},'fontsize',10, 'Interpreter', 'tex');
     ylh = ylabel(phgTitles{phg});
@@ -267,7 +267,7 @@ for phg = 1:numel(plotPhg)
         imagesc(crpAdjImg,'Parent',ax);
         ax.XTick = [];
         ax.YTick = [];
-        tit1 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(1,:)) '}' imgTitsY{1}];
+        tit1 = ['\it\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(1,:)) '}' imgTitsY{1}];
         tit2 = ['\color[rgb]{' sprintf('%1.2f,%1.2f,%1.2f', titClr(2,:)) '}'  imgTitsY{2}];
         t = title({tit1,tit2},...
         'fontsize',10, 'Interpreter', 'tex');

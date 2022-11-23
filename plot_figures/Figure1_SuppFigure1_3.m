@@ -184,6 +184,8 @@ for pl = 1:4
     ax_pks = axes('Units','centimeters','Position',[margin_x+b_w+c_w+space_x, ...
         (space_y + frame_size)*(4-pl)+margin_y+legend2D_y+space_y, frame_size,frame_size]);
     imagesc(reshape([meanM.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]),'parent',ax_pks);
+    pkPltSource = reshape([meanM.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]);
+    save([calculations_location f 'Fig1d_' num2str(pl) '.mat'], 'pkPltSource')
     hold on
     ax_pks.Colormap = copper(maxPks);
     pbaspect([1,1,1])
@@ -198,12 +200,20 @@ for pl = 1:4
         (space_y + frame_size)*(4-pl)+margin_y+legend2D_y+space_y, frame_size,frame_size]);
     
     for pt = 1:size(ptsMain(pl).pts,1)
-        plot(ax_int,meanM.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin], ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))),...
+        plot(ax_int,meanM.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin],...
+            ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))),...
             'Color',ptColor(pt,:),'LineWidth',lnWdt,'LineStyle','-');
+        intSource = meanM.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin],...
+            ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1)))';
         hold on
-        plot(ax_int,meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).locs,...
-            meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).pks,'o',...
+        plot(ax_int,meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).locs,...
+            meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).pks,'o',...
             'MarkerFaceColor',ptColor(pt,:),'MarkerEdgeColor',ptColor(pt,:),'MarkerSize',peakMarSz);
+        pkSource = meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).locs;
+        save([calculations_location f 'Fig1e_' num2str(pl) '_' num2str(pt) '.mat'], 'intSource','pkSource')
         timeLabel = 0:(6*24):size(meanM.sngPltMean(pl).timeMean,1);
         intLabel = 0:50:255;
         ylim([0 ym]);
@@ -301,7 +311,7 @@ intensify = 1.5;
 imgN(2) = size(pltC.sngPlt(1).imgs,3); 
 tf(2) = imgN(2);
 t_cont = round(logspace(log10(ti(2)+A(2)),log10(tf(2)+A(2)),N(2))-A(2));    
-timePointsCont =  [47 95 135 165 210 245 275 300 322 340]; %30:32:numel(t_cont); % was 10:32:numel(t_main)-30 (9 images)
+timePointsCont =  [47 95 135 165 210 245 275 300 340]; 
 for t = 1:numel(timePointsCont)
     % plot image:
     fprintf('%d out of %d\n',t,numel(timePointsCont))
@@ -483,7 +493,7 @@ set(ax_int_SP,'ytick',intLabel,'YTickLabel',intLabel,'xtick',timeLabel,'XTickLab
 xlabel('Time, [days]')
 ylabel('Intensity,\eta')
 annotation('textbox',[margin_x_sup3/x_cm_sup3,(margin_y_sup3+(histSize+sp_sup3)+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','a','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','a','color','black','EdgeColor','none','FontSize',letter_fs+3)
 
 
 ax_pkSP = axes('units','centimeters','position',[margin_x_sup3+(histSize+sp_sup3)  ...
@@ -495,7 +505,7 @@ xlabel('Detected peaks')
 ylabel('Count');
 title('Bacterial Migration')
 annotation('textbox',[(margin_x_sup3+(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup3+(histSize+sp_sup3)+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','b','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','b','color','black','EdgeColor','none','FontSize',letter_fs+3)
 
 ax_promSP = axes('units','centimeters','position',[margin_x_sup3+2*(histSize+sp_sup3)  ...
     margin_y_sup3+(histSize+sp_sup3)  histSize histSize]);
@@ -505,7 +515,7 @@ xlabel('Mean Peak Prominence')
 ylabel('Density');
 title('Bacterial Migration')
 annotation('textbox',[(margin_x_sup3+2*(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup3+(histSize+sp_sup3)+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','c','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','c','color','black','EdgeColor','none','FontSize',letter_fs+3)
 
 ax_pkM = axes('units','centimeters','position',[margin_x_sup3  ...
     margin_y_sup3 histSize histSize]);
@@ -517,7 +527,7 @@ xlabel('Detected peaks')
 ylabel('Count');
 title('Coevolution: Initial')
 annotation('textbox',[(margin_x_sup3)/x_cm_sup3,(margin_y_sup3+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','d','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','d','color','black','EdgeColor','none','FontSize',letter_fs+3)
 
 ax_pkC = axes('units','centimeters','position',[margin_x_sup3+(histSize+sp_sup3)  ...
     margin_y_sup3 histSize histSize]);
@@ -529,7 +539,7 @@ xlabel('Detected peaks')
 ylabel('Count');
 title('Coevolution: Continual')
 annotation('textbox',[(margin_x_sup3+(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup3+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','e','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','e','color','black','EdgeColor','none','FontSize',letter_fs+3)
 
 ax_prominence = axes('units','centimeters','position',[margin_x_sup3+2*(histSize+sp_sup3)  ...
     margin_y_sup3 histSize histSize]);
@@ -537,7 +547,7 @@ hold on
 histogram(pkCalcMain.PkMeanProminence,'Normalization','pdf');
 histogram(pkCalcCont.PkMeanProminence,'Normalization','pdf');
 annotation('textbox',[(margin_x_sup3+2*(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup3+histSize)/y_cm_sup3 0.07 0.07] ,...
-    'string','f','color','black','EdgeColor','none','FontSize',letter_fs)
+    'string','f','color','black','EdgeColor','none','FontSize',letter_fs+3)
 set(gca,'Box','on')
 legend({'Initial Coevolution','Continual Coevolution'})
 xlim([0 120])

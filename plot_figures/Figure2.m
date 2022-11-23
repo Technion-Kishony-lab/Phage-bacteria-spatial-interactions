@@ -144,6 +144,10 @@ caxis([min(min(phenMatLog)),max(max(phenMatLog))]);
 linkaxes([ax_den_phg,ax_mat],'y');
 linkaxes([ax_den_bac,ax_mat],'x');
 
+% source data:
+phenMatLogTrans = phenMatLog';
+save(['output_files' f 'Fig2a.mat'],'phenMatLogTrans');
+
 % Add colorbars
 barH = mat_h/30;
 barW = mat_w/3;

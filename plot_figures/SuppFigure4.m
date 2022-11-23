@@ -75,7 +75,7 @@ for cr = 1:size(coorIni,1)
     end
     
 end
-
+text(-80,0,'a','fontsize',12)
 % Plot samples on plate image - Cont coevolution
 cBac = find(strcmp(BacIso.experiment,'Cont'));
 cPhg = find(strcmp(PhgIso.experiment,'Cont'));
@@ -113,4 +113,5 @@ for cr = 1:size(coorCont,1)
     end
     
 end
+text(-80,0,'b','fontsize',12)
 print([figure_location f 'SuppFigure4'],'-dpng','-r300');

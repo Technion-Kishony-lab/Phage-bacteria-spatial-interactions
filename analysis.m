@@ -1,10 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Main phage-bacteria co-evolution data analysis pipeline  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Stand in: 'D:\Research\OneDrive - Technion\Ecoli-Phage-CoEvolution\scripts'
+% Stand in: 'scripts'
 fprintf('Running main analysis\n');
-tic
 f = filesep;
 addpath(genpath('.'))
 if ~exist('output_files','dir')
@@ -557,4 +555,3 @@ if ~exist(PathwayPhgOrg,'file')
     pwtbl = table(PhgGenTblOrg.mutName,cell(size(PhgGenTblOrg.mutName)),'VariableNames',{'mutation','pathway'});
     writetable(pwtbl,PathwayPhgOrg)
 end
-toc

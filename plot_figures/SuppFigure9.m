@@ -55,6 +55,7 @@ for org = 2:-1:1
     switch organism
         case 'bacteria'
             ref_folder = [refs_folder f 'bac' f 'genome.mat'];
+            phage_genes = [];
         case 'phage'
             ref_folder = [refs_folder f 'phg' f 'genome.mat'];
             phage_genes = readtable(PhgGeneList);
@@ -129,7 +130,7 @@ for org = 2:-1:1
                 fprintf('%d\n',sim)
             end
             [allMutgenesSimul,allSimulWeights] = simulateMutations(mutinfo,...
-                org,pan_g,allMutPltIdx,wghtFactor);   
+                org,pan_g,allMutPltIdx,wghtFactor,phage_genes);   
             [~,~,iw] = unique(allMutgenesSimul,'stable');  
             for i = max(iw):-1:1
                 geneCountSimulWeighted(i) = sum(allSimulWeights(iw==i));
