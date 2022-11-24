@@ -10,31 +10,39 @@ Instructions:
 2. Extract "Additional_scripts".
 3. Download all raw data files from Zenodo:
 	10.5281/zenodo.7347986
-About 60GB of storage space is required.
-4. Place all compressed files, except for the "script_data" file, under a folder named "input_files".
-5. extract all folders.
-Also, extract all images folders (into their current location):
-input_files\coevolution\20191206_plate_raw_imgs
-input_files\coevolution\20191206_plate_raw_imgs\20191218_continue
-input_files\coevolution\220904_MGY_SP
-input_files\crossInfection\coevo_cross_infection\20200205_phage1_interactions
-input_files\crossInfection\coevo_cross_infection\20200202_phage2_interactions
+	About 60GB of storage space is required. 
+	
+	The raw data folders contain:
+	* Raw images of the coevolution experiment 
+	* Raw images of the cross-infection assay and additional technical data.
+	* Raw and analyzed sequencing analysis files 
+	* Illustration of the experimental setup (for Fig. 1a and Supplementary Fig. 1a) 
+	* Isolate sampling coordinates, cropping coordinate of the full coevolution images.
+	* Genetic pathways information
+	* Raw data of the mlaA and opgG mutants assay.
+	* Example images of a two-color plaque assay on a petri dish.
 
-6. extract "script_data" (optional)
+	Follow the next steps to organize the data:
+	
+4. Place all compressed files, except for the "script_data" file, under a new folder named "input_files".
+5. Make a folder named "coevolution" under "input_files".
+	Place the following compressed files under "coevolution" and extract as follows:
+	a. "coevolution_additionalFiles.zip" - extract files directly into "coevolution"
+	b. "220904_MGY_SP.zip" - extract images into the folder "220904_MGY_SP"
+	c. "20191206_plate_raw_imgs" - extract images into the folder "20191206_plate_raw_imgs" 
+	d. Place the compressed file "20191218_continue.zip" under the folder "20191206_plate_raw_imgs" (see c.)
+	   extract images in "20191218_continue.zip" into the folder "20191218_continue" (final hierarchy: input_files\coevolution\20191206_plate_raw_imgs\20191218_continue\*.CR2)
+
+6. Extract all other folders in "input_files".
+	Also, extract the remaining images folders:
+	input_files\crossInfection\coevo_cross_infection\20200205_phage1_interactions
+	input_files\crossInfection\coevo_cross_infection\20200202_phage2_interactions
+
+7. Extract "script_data" (optional)
 Place "script_data", "input_files", and "scripts" folders under the same folder (the three folders should be at the same level) 
 
-The raw data folders contain:
-* Raw images of the coevolution experiment 
-* Raw images of the cross-infection assay and additional technical data.
-* Raw and analyzed sequencing analysis files 
-* Illustration of the experimental setup (for Fig. 1a and Supplementary Fig. 1a) 
-* Isolate sampling coordinates, cropping coordinate of the full coevolution images.
-* Genetic pathways information
-* Raw data of the mlaA and opgG mutants assay.
-* Example images of a two-color plaque assay on a petri dish.
- 
-7. Run the analysis and plot figures:
-In order to analyze the data and produce figures and tables, stand inside the scripts folder and run the script
+8. Run the analysis and plot figures:
+In order to analyze the data and produce figures and tables, stand inside the "scripts" folder and run the script
 main.m
 
 The main script will organize the data into tables (in 'Tables' folder) and mat files (in 'script_data' folder).
