@@ -94,7 +94,7 @@ img_size = 2.25;
 x_cm = 18; 
 bar_width = 0.3;
 
-pl = 2;
+plB = 2;
 margin_x_TL = 0.3;
 margin_y_TL = 1;
 space_x_imgs = 0.2; 
@@ -134,13 +134,14 @@ for t = 1:numel(timePointsMain)
         ax_TL = axes('units','centimeters','position',[margin_x+(space_x_imgs+img_size)*(t-6-1)...
             margin_y+space_y+legend2D_y img_size img_size]);
     end
-    imshow((pltM.sngPlt(pl).imgs(1:reduce:end,1:reduce:end,t_main(timePointsMain(t)))-pltM.sngPlt(pl).bg(1:reduce:end,1:reduce:end))*intensify,'Parent',ax_TL);
+    imshow((pltM.sngPlt(plB).imgs(1:reduce:end,1:reduce:end,...
+    t_main(timePointsMain(t)))-pltM.sngPlt(plB).bg(1:reduce:end,1:reduce:end))*intensify,'Parent',ax_TL);
     if t <= 3
         timeLabel = sprintf('%dhr', round(t_main(timePointsMain(t))*10/60));
     else
         timeLabel = sprintf('%0.1fd', t_main(timePointsMain(t))*10/60/24);
     end
-    ysize = size(pltM.sngPlt(pl).imgs(1:reduce:end,1:reduce:end,t_main(timePointsMain(t))));
+    ysize = size(pltM.sngPlt(plB).imgs(1:reduce:end,1:reduce:end,t_main(timePointsMain(t))));
     text(7,ysize(1)-30,timeLabel,'Color',timeClr,'FontSize',letter_fs)
     if t==1
          text(ax_TL.XLim(1) - 30000/(ax_TL.XLim(2) - ax_TL.XLim(1)),0,'b',...
@@ -168,6 +169,10 @@ for pl = 1:4
         text(ax_maxFinal.XLim(1) - 1000/(ax_maxFinal.XLim(2) - ax_maxFinal.XLim(1)),0,...
             'c','Parent',ax_maxFinal,'color','black','FontSize',letter_fs)
     end
+    rSave = overlay_adj(:,:,1);
+    gSave = overlay_adj(:,:,2);
+    bSave = overlay_adj(:,:,3);
+    save([calculations_location f 'Fig1c_' num2str(pl) '.mat'], 'rSave','gSave','bSave')
 end
 c_w = space_x+frame_size;
 
@@ -258,8 +263,19 @@ set(ax_clrbr,'ytick',[],'xtick',(minPks:3:maxPks)+1,'XTickLabel',minPks:3:maxPks
 xlPeaks = xlabel('Number of Peaks');
 xlPeaks.Position(2) = xlPeaks.Position(2) - xlPeaks.Position(2) * 0.1;
 
+set(gcf,'renderer','painters')
+print([figure_location f 'Figure1'],'-depsc2','-r300')
 print([figure_location f 'Figure1'],'-dpng','-r300')
-print([figure_location f 'Figure1'],'-depsc2')
+
+%% save HQ png images for eps figure
+for t = 1:numel(timePointsMain)
+    fTL = figure(t+100);clf
+    ax_TL_sep = axes('units','centimeters','position',[5,5, img_size img_size]);
+    imshow((pltM.sngPlt(plB).imgs(1:reduce:end,1:reduce:end,...
+        t_main(timePointsMain(t)))-pltM.sngPlt(plB).bg(1:reduce:end,1:reduce:end))*intensify,'Parent',ax_TL_sep);
+    print(['output_files' f 'Fig1b_' num2str(t)],'-dpng','-r300') 
+    close(fTL)
+end
 %% CONT make circle masks per mask 
 maskC = load(masks_cont,'mask');
 %% CONT Average intensity on small windows: 

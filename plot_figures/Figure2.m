@@ -144,7 +144,7 @@ caxis([min(min(phenMatLog)),max(max(phenMatLog))]);
 linkaxes([ax_den_phg,ax_mat],'y');
 linkaxes([ax_den_bac,ax_mat],'x');
 
-% source data:
+% for source data file
 phenMatLogTrans = phenMatLog';
 save(['output_files' f 'Fig2a.mat'],'phenMatLogTrans');
 
@@ -307,5 +307,6 @@ for i = 6:-1:4
         'HorizontalAlignment','center','fontsize',8);
 end
 
+set(gcf,'renderer','painters')
+print([figure_location f 'Figure2'],'-depsc2','-r300')
 print([figure_location f 'Figure2'],'-dpng','-r300');
-print([figure_location f 'Figure2'],'-depsc2')

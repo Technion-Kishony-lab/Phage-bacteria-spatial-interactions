@@ -408,9 +408,12 @@ annotation('arrow',[ddx+dx+bardX/2+spaceX ddx+dx+bardX-spaceX],[y_arr y_arr])
 annotation('textbox',[ddx+dx+bardX/2+spaceX-eps y_arr+0.008 bardX/2-2*spaceX test_ht],...
     'String','Higher Infectivity','HorizontalAlignment','center','EdgeColor','none')
 
-print([fig_location f 'Figure3'],'-dpng','-r300');
 save(pwClrMapFile,'bacPwsClrMap','phgPwsClrMap','bac_pw','phg_pw');
-print([figure_location f 'Figure3'],'-depsc2')
+
+set(gcf,'renderer','painters')
+print([figure_location f 'Figure3'],'-depsc2','-r300')
+print([fig_location f 'Figure3'],'-dpng','-r300');
+
 % save source data
 writetable(struct2table(sourceDataTblA),['output_files' f 'Fig3A.xlsx'])
 writetable(struct2table(sourceDataTblB),['output_files' f 'Fig3B.xlsx'])
