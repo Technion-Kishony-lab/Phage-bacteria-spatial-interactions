@@ -42,10 +42,10 @@ else
     load([anaFolder_opgG f imgsOpgGfn]);
 end
 %% Get drop centers from drop cropping:
-if ~exist([anaFolder_opgG f 'drops_centers.mat'],'file')
+if ~exist([imgFolder_opgG f 'drops_centers.mat'],'file')
     get_drops_centers_flp([imgFolder_opgG f],[anaFolder_opgG f],1)
 else 
-    load([anaFolder_opgG f 'drops_centers.mat'])
+    load([imgFolder_opgG f 'drops_centers.mat'])
 end
 
 % Chosen dilution from each phage:
@@ -197,10 +197,10 @@ else
     load([anaFolder_mlaA f imgsMlaAfn]);
 end
 %% Get drop centers from drop cropping:
-if ~exist([anaFolder_mlaA f 'drops_centers.mat'],'file')
+if ~exist([imgFolder_mlaA f 'drops_centers.mat'],'file')
     get_drops_centers_flp([imgFolder_mlaA f],[anaFolder_mlaA f],flip)
 else 
-    load([anaFolder_mlaA f 'drops_centers.mat'])
+    load([imgFolder_mlaA f 'drops_centers.mat'])
 end
 
 %% Chosen dilution from each phage:

@@ -170,7 +170,7 @@ clr = [0.5 0.5 0.5];
 nbins = [30,12];
 xlims = [0 13;
     0 8];
-for org = 1:2
+for org = 2:-1:1
     axes('Units','centimeters','Position',[2+(org-1)*9 1 7 7])
     switch org
         case 1
@@ -180,7 +180,7 @@ for org = 1:2
             realdNdS(org) = sum(strcmp(genInfoPhg.mutType,'SNP-NonSyn') & ~genInfoPhg.preexisting_loci)./...
                 sum(strcmp(genInfoPhg.mutType,'SNP-Syn') & ~genInfoPhg.preexisting_loci);
     end
-    histogram(dNdS(:,org),nbins(org),'FaceColor',clr); hold on
+    hst(org).h = histogram(dNdS(:,org),nbins(org),'FaceColor',clr); hold on
     xline(realdNdS(org),'color','red','linewidth',2)
     ylim([0 3500])
     xlim(xlims(org,:))
@@ -189,6 +189,12 @@ for org = 1:2
     ylabel('No. simulations')
     tit = sprintf('%s, p = %0.4f',organisms{org},numel(find(dNdS(:,org)>=realdNdS(org)))/simulNum);
     title(tit)
+    strctSupp8.(['Org' num2str(org) '_BinEdges']) = hst(org).h.BinEdges';
+    strctSupp8.(['Rep' num2str(org) '_dNdS']) = hst(org).h.Values';
 end
 print([saveFig f 'SuppFigure8'],'-dpng','-r300')
+save(['output_files' f 'sourceData' f 'SuppFig8.mat'],'strctSupp8');
+
+
+
 toc

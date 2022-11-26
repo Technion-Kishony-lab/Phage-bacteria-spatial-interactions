@@ -27,7 +27,6 @@ img_setup_file_main = ['..' f 'input_files' f 'exp_setup' f 'setup_Rev2-03.png']
 img_setup_file_cont = ['..' f 'input_files' f 'exp_setup' f 'setup_Rev2-04.png'];
 %% file save locations:
 figure_location =  'Figs' ;
-calculations_location = 'output_files';
 %% parameters
 load(movieParamsFile,'N','A','ti','xyWin','tWin','plateSize','plateSizeSP');
 % Chosen spots for intensity plots over time:
@@ -75,7 +74,7 @@ pkCalcMain.PkStd = std([numPksMain.np]);
 pkCalcMain.PkMedian = median([numPksMain.np]);
 pkCalcMain.PkMeanProminence = vertcat(numPksMain.prominence);
 pkCalcMain.PkMeanProminenceMean = mean(pkCalcMain.PkMeanProminence);
-save([calculations_location f 'PeaksCalcMain'],'pkCalcMain');
+save(['output_files' f 'PeaksCalcMain'],'pkCalcMain');
 %%  Dynamics of peaks and Max vs Final - Main
 % Position figure:
 y_cm = 18; 
@@ -172,7 +171,7 @@ for pl = 1:4
     rSave = overlay_adj(:,:,1);
     gSave = overlay_adj(:,:,2);
     bSave = overlay_adj(:,:,3);
-    save([calculations_location f 'Fig1c_' num2str(pl) '.mat'], 'rSave','gSave','bSave')
+    save(['output_files' f 'sourceData' f 'Fig1c_' num2str(pl) '.mat'], 'rSave','gSave','bSave')
 end
 c_w = space_x+frame_size;
 
@@ -190,7 +189,7 @@ for pl = 1:4
         (space_y + frame_size)*(4-pl)+margin_y+legend2D_y+space_y, frame_size,frame_size]);
     imagesc(reshape([meanM.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]),'parent',ax_pks);
     pkPltSource = reshape([meanM.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]);
-    save([calculations_location f 'Fig1d_' num2str(pl) '.mat'], 'pkPltSource')
+    save(['output_files' f 'sourceData' f 'Fig1d_' num2str(pl) '.mat'], 'pkPltSource')
     hold on
     ax_pks.Colormap = copper(maxPks);
     pbaspect([1,1,1])
@@ -218,7 +217,7 @@ for pl = 1:4
             'MarkerFaceColor',ptColor(pt,:),'MarkerEdgeColor',ptColor(pt,:),'MarkerSize',peakMarSz);
         pkSource = meanM.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
             ptsMain(pl).pts(pt,2), ptsMain(pl).pts(pt,1))).locs;
-        save([calculations_location f 'Fig1e_' num2str(pl) '_' num2str(pt) '.mat'], 'intSource','pkSource')
+        save(['output_files' f 'sourceData' f 'Fig1e_' num2str(pl) '_' num2str(pt) '.mat'], 'intSource','pkSource')
         timeLabel = 0:(6*24):size(meanM.sngPltMean(pl).timeMean,1);
         intLabel = 0:50:255;
         ylim([0 ym]);
@@ -309,7 +308,7 @@ pkCalcCont.PkStd = std([numPksCont.np]);
 pkCalcCont.PkMedian = median([numPksCont.np]);
 pkCalcCont.PkMeanProminence = vertcat(numPksCont.prominence);
 pkCalcCont.PkMeanProminenceMean = mean(pkCalcCont.PkMeanProminence);
-save([calculations_location f 'PeaksCalcCont'],'pkCalcCont');
+save(['output_files' f 'PeaksCalcCont'],'pkCalcCont');
 %%  Dynamics of peaks and Max vs Final - Cont
 figure(102); clf;
 set(gcf,'Name','Dynamics of peaks and Max vs Final - Cont','Units','centimeters','Position',[1 1 x_cm y_cm])
@@ -373,6 +372,10 @@ for pl = 1:4
          text(ax_maxFinal.XLim(1) - 1000/(ax_maxFinal.XLim(2) - ax_maxFinal.XLim(1)),0,...
             'c','Parent',ax_maxFinal,'color','black','FontSize',letter_fs)
     end
+    rSaveSp = overlay_adj(:,:,1);
+    gSaveSp = overlay_adj(:,:,2);
+    bSaveSp = overlay_adj(:,:,3);
+    save(['output_files' f 'sourceData' f 'SuppFig1c_' num2str(pl) '.mat'], 'rSaveSp','gSaveSp','bSaveSp')
 end
 
 % Plot number of peaks in each time window:
@@ -384,6 +387,8 @@ for pl = 1:4
     ax_pks = axes('Units','centimeters','Position',[margin_x+b_w+c_w+space_x, ...
         (space_y + frame_size)*(4-pl)+margin_y+legend2D_y+space_y, frame_size,frame_size]);
     imagesc(reshape([meanC.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]),'parent',ax_pks);
+    pkPltSourceSp = reshape([meanC.sngPltMean(pl).pks.numPks],[plateSize/xyWin,plateSize/xyWin]);
+    save(['output_files' f 'sourceData' f 'SuppFig1d_' num2str(pl) '.mat'], 'pkPltSourceSp')
     hold on
     ax_pks.Colormap = copper(maxPks);
     pbaspect([1,1,1])
@@ -396,12 +401,20 @@ for pl = 1:4
     ax_int = axes('Units','centimeters','Position',[margin_x+b_w+c_w+c_w+space_x*3,...
         (space_y + frame_size)*(4-pl)+margin_y+legend2D_y+space_y, frame_size,frame_size]);
     for pt = 1:size(ptsCont(pl).pts,1)
-        plot(ax_int,meanC.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin], ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))),...
+        plot(ax_int,meanC.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))),...
             'Color',ptColor(pt,:),'LineWidth',lnWdt,'LineStyle','-');
+        intSourceSp = meanC.sngPltMean(pl).timeMean(:,sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1)))';
         hold on
-        plot(ax_int,meanC.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))).locs,...
+        plot(ax_int,meanC.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))).locs,...
             meanC.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))).pks,'o',...
             'MarkerFaceColor',ptColor(pt,:),'MarkerEdgeColor',ptColor(pt,:),'MarkerSize',peakMarSz);
+        pkSourceSp = meanC.sngPltMean(pl).pks(sub2ind([plateSize/xyWin,plateSize/xyWin], ...
+            ptsCont(pl).pts(pt,2), ptsCont(pl).pts(pt,1))).locs;
+        save(['output_files' f 'sourceData' f 'SuppFig1e_' num2str(pl) '_' num2str(pt) '.mat'], 'intSourceSp','pkSourceSp')
+
         timeLabel = 0:(6*24):size(meanC.sngPltMean(pl).timeMean,1);
         intLabel = 0:50:255;
         ylim([0 210]);
@@ -479,7 +492,7 @@ pkCalcSP.PkStd = std([numPksSP.np]);
 pkCalcSP.PkMedian = median([numPksSP.np]);
 pkCalcSP.PkMeanProminence = vertcat(numPksSP.prominence);
 pkCalcSP.PkMeanProminenceMean = mean(pkCalcSP.PkMeanProminence);
-save([calculations_location f 'PeaksCalcSP'],'pkCalcSP');
+save(['output_files' f 'PeaksCalcSP'],'pkCalcSP');
 
 %% Plot Supplementary Figure 3
 x_cm_sup3 = 24;
@@ -514,7 +527,9 @@ annotation('textbox',[margin_x_sup3/x_cm_sup3,(margin_y_sup3+(histSize+sp_sup3)+
 
 ax_pkSP = axes('units','centimeters','position',[margin_x_sup3+(histSize+sp_sup3)  ...
     margin_y_sup3+(histSize+sp_sup3)  histSize histSize]);
-histogram([numPksSP.np],'Parent',ax_pkSP)
+hstSPNumPk = histogram([numPksSP.np],'Parent',ax_pkSP);
+hstSPNumPk_Val = hstSPNumPk.Values;
+hstSPNumPk_Bin = hstSPNumPk.BinEdges;
 xlim([xmin xmax])
 xline(pkCalcSP.PkMedian,'color','r','linewidth',2)
 xlabel('Detected peaks')
@@ -525,7 +540,9 @@ annotation('textbox',[(margin_x_sup3+(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup
 
 ax_promSP = axes('units','centimeters','position',[margin_x_sup3+2*(histSize+sp_sup3)  ...
     margin_y_sup3+(histSize+sp_sup3)  histSize histSize]);
-histogram(pkCalcSP.PkMeanProminence,'Normalization','probability','Parent',ax_promSP)
+hstSPprom = histogram(pkCalcSP.PkMeanProminence,'Normalization','probability','Parent',ax_promSP);
+hstSPprom_Val = hstSPprom.Values;
+hstSPprom_Bin = hstSPprom.BinEdges;
 xlim([0 50])
 xlabel('Mean Peak Prominence')
 ylabel('Density');
@@ -535,7 +552,9 @@ annotation('textbox',[(margin_x_sup3+2*(histSize+sp_sup3))/x_cm_sup3,(margin_y_s
 
 ax_pkM = axes('units','centimeters','position',[margin_x_sup3  ...
     margin_y_sup3 histSize histSize]);
-histogram([numPksMain.np],'Parent',ax_pkM)
+hstMainNumPk = histogram([numPksMain.np],'Parent',ax_pkM);
+hstMainNumPk_Val = hstMainNumPk.Values;
+hstMainNumPk_Bin = hstMainNumPk.BinEdges;
 xlim([xmin xmax])
 xline(pkCalcMain.PkMedian,'color','k','linewidth',2)
 xline(pkCalcSP.PkMedian,'color','r','linewidth',2)
@@ -547,7 +566,9 @@ annotation('textbox',[(margin_x_sup3)/x_cm_sup3,(margin_y_sup3+histSize)/y_cm_su
 
 ax_pkC = axes('units','centimeters','position',[margin_x_sup3+(histSize+sp_sup3)  ...
     margin_y_sup3 histSize histSize]);
-histogram([numPksCont.np],'Parent',ax_pkC)
+hstContNumPk = histogram([numPksCont.np],'Parent',ax_pkC);
+hstContNumPk_Val = hstContNumPk.Values;
+hstContNumPk_Bin = hstContNumPk.BinEdges;
 xlim([xmin xmax])
 xline(pkCalcCont.PkMedian,'color','k','linewidth',2)
 xline(pkCalcSP.PkMedian,'color','r','linewidth',2)
@@ -560,8 +581,12 @@ annotation('textbox',[(margin_x_sup3+(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup
 ax_prominence = axes('units','centimeters','position',[margin_x_sup3+2*(histSize+sp_sup3)  ...
     margin_y_sup3 histSize histSize]);
 hold on
-histogram(pkCalcMain.PkMeanProminence,'Normalization','pdf');
-histogram(pkCalcCont.PkMeanProminence,'Normalization','pdf');
+hstMainProm = histogram(pkCalcMain.PkMeanProminence,'Normalization','pdf');
+hstMainProm_Val = hstMainProm.Values;
+hstMainProm_Bin = hstMainProm.BinEdges;
+hstContProm = histogram(pkCalcCont.PkMeanProminence,'Normalization','pdf');
+hstContProm_Val = hstContProm.Values;
+hstContProm_Bin = hstContProm.BinEdges;
 annotation('textbox',[(margin_x_sup3+2*(histSize+sp_sup3))/x_cm_sup3,(margin_y_sup3+histSize)/y_cm_sup3 0.07 0.07] ,...
     'string','f','color','black','EdgeColor','none','FontSize',letter_fs+3)
 set(gca,'Box','on')
@@ -573,7 +598,13 @@ title('Coevolution')
 fprintf('mean prominence Initial:%0.1f\n mean prominence Continual:%0.1f\n mean prominence bacterial migration:%0.1f\n',...
     pkCalcMain.PkMeanProminenceMean,pkCalcCont.PkMeanProminenceMean,pkCalcSP.PkMeanProminenceMean);
 print([figure_location f 'SuppFigure3'],'-dpng','-r300')
-
+save(['output_files' f 'sourceData' f 'SuppFig3b-f.mat'],...
+    'hstMainProm_Val','hstMainProm_Bin',...
+    'hstContProm_Val','hstContProm_Bin',...
+    'hstContNumPk_Val','hstContNumPk_Bin',...
+    'hstMainNumPk_Val','hstMainNumPk_Bin',...
+    'hstSPNumPk_Val','hstSPNumPk_Bin',...
+    'hstSPprom_Val','hstSPprom_Bin');
 %% Full figure for no-phage control (without saving)
 
 figure(1003); clf;
@@ -595,6 +626,7 @@ for pl = 1:4
          text(ax_maxFinal.XLim(1) - 1000/(ax_maxFinal.XLim(2) - ax_maxFinal.XLim(1)),0,...
             'c','Parent',ax_maxFinal,'color','black','FontSize',letter_fs)
     end
+    
 end
 
 % Plot number of peaks in each time window:

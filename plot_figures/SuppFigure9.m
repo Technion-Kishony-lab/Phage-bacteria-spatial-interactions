@@ -199,6 +199,10 @@ for org = 1:2
         multiMut(org).ValuesSumMean(2:end)-reshape(multiMut(org).ValuesSumCI(1,2:end),[],1),...
         reshape(multiMut(org).ValuesSumCI(2,2:end),[],1)-multiMut(org).ValuesSumMean(2:end),...
         '.','MarkerSize',12,'color','red')
+    sourceDataTbl.GeneCount = multiMut(org).geneCntSum(2:end)';
+    sourceDataTbl.SimulationMean = multiMut(org).ValuesSumMean(2:end);
+    sourceDataTbl.ErrorbarBottom = multiMut(org).ValuesSumMean(2:end)-reshape(multiMut(org).ValuesSumCI(1,2:end),[],1);
+    sourceDataTbl.ErrorbarTop = reshape(multiMut(org).ValuesSumCI(2,2:end),[],1)-multiMut(org).ValuesSumMean(2:end);
     switch org
         case 1
             set(gca,'xtick',[1,3,5,7],'xticklabels',{'\geq1','\geq3','\geq5','\geq7'})
@@ -208,6 +212,7 @@ for org = 1:2
             ltrX = [0.025,0.025];
             ltrY = [0.94,0.48];
             letters = {'a','c'};
+            writetable(struct2table(sourceDataTbl),['output_files' f 'sourceData' f 'SuppFig9A.xlsx'])
         case 2
             set(gca,'xtick',[1,10,20],'xticklabels',{'\geq1','\geq10','\geq20'})
             xlim1 = 26;
@@ -216,6 +221,7 @@ for org = 1:2
             ltrX = [0.475,0.475];
             ltrY = [0.94,0.48];
             letters = {'b','d'};
+            writetable(struct2table(sourceDataTbl),['output_files' f 'sourceData' f 'SuppFig9B.xlsx'])
     end
     hold on
     xl = xline(multiMut(org).sigWght,'k--');
@@ -274,6 +280,7 @@ for org = 1:2
         hold on
     end
     upwStrings = unique(pwStrings(cellfun(@(x) ~isempty(x),pwStrings)));
+    gnXcnt = array2table(sortCnt,'VariableNames',{'mutCount'});
     if org==1
         for pw = 1:numel(upwStrings)
         text(numel(sortCnt)-5,sortCnt(1)+1-pw,upwStrings{pw},'Color',...
@@ -287,9 +294,13 @@ for org = 1:2
     end
 
     if org==1
+        gnXnames = cell2table(multiMut(org).sigGenes(sortI)','VariableNames',{'MutGeneName'});      
         set(gca,'Xtick',1:numel(sortCnt),'XTickLabel',multiMut(org).sigGenes(sortI),'XTickLabelRotation',60,'FontSize',gn_fs)
+        writetable([gnXnames gnXcnt],['output_files' f 'sourceData' f 'SuppFig9c.xlsx'])
     else
+        gnXnames = cell2table(strcat('gp',multiMut(org).sigGenes(sortI)'),'VariableNames',{'MutGeneName'});
         set(gca,'Xtick',1:numel(sortCnt),'XTickLabel',strcat('gp',multiMut(org).sigGenes(sortI)),'XTickLabelRotation',60,'FontSize',gn_fs)
+        writetable([gnXnames gnXcnt],['output_files' f 'sourceData' f 'SuppFig9d.xlsx'])
     end
     ylabel('Weighted number of mutations')
     ylim([0 ylim2]);

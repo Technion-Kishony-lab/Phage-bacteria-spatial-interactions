@@ -415,8 +415,8 @@ print([figure_location f 'Figure3'],'-depsc2','-r300')
 print([fig_location f 'Figure3'],'-dpng','-r300');
 
 % save source data
-writetable(struct2table(sourceDataTblA),['output_files' f 'Fig3A.xlsx'])
-writetable(struct2table(sourceDataTblB),['output_files' f 'Fig3B.xlsx'])
+writetable(struct2table(sourceDataTblA),['output_files' f 'sourceData' f 'Fig3A.xlsx'])
+writetable(struct2table(sourceDataTblB),['output_files' f 'sourceData' f 'Fig3B.xlsx'])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% print Figure 3 with full mutation names for reviewer comments:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

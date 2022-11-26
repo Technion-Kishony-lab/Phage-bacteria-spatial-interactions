@@ -71,6 +71,10 @@ set(gca,'XTick',1:49:100,'XTickLabel',sprintfc('%0.1f',[turbBar(1)  turbBar(50) 
     ,'YTick',[],'fontsize',8)
 title('1-Turbidity')
 
+% Save Source data:
+turbMatTrans = turbidityInvOrgOrder';
+save(['output_files' f 'sourceData' f 'SuppFig6a.mat'],'turbMatTrans');
+
 % B: plot host switch examples over same/diff replicate and WT bacteria
 BacIsolatesTable = ['..' f 'Tables' f 'Bac_isolates.xlsx']; 
 PhgIsolatesTable = ['..' f 'Tables' f 'Phg_isolates.xlsx']; 
@@ -171,3 +175,9 @@ ylabel('WT Replicate 2')
 
 text(-0.18,0.75,'d','color','black','FontSize',letter_panel)
 print([figure_location f 'SuppFigure6'],'-dpng','-r300');
+
+% Save source data
+bacInf = infectivity(bacWTcpls(:,1),:)';
+phgInf = infectivity(:,phgWTcpls(:,1));
+writetable(table(bacInf),['output_files' f 'sourceData' f 'SuppFig6_c.xlsx']);
+writetable(table(phgInf),['output_files' f 'sourceData' f 'SuppFig6_d.xlsx']);

@@ -112,7 +112,7 @@ end
 for pl = 4:-1:1
     axes('units','centimeters','position', [margin+(pl-1)*(space+sz) ...
         margin+2*sz+spaceAB sz sz/2])
-    histogram(bpPerPlate(pl).bp.statistics.N_values.random_values,'FaceColor',pltMap(pl+1,:))
+    hstNest(pl).hst = histogram(bpPerPlate(pl).bp.statistics.N_values.random_values,'FaceColor',pltMap(pl+1,:));
     ylim([0 1000]);
     pval_nest = sum(bpPerPlate(pl).bp.statistics.N_values.random_values>=bpPerPlate(pl).bp.nestedness.N)/randomMatsPerPlate;
     pval_antinest = sum(bpPerPlate(pl).bp.statistics.N_values.random_values<=bpPerPlate(pl).bp.nestedness.N)/randomMatsPerPlate;
@@ -139,7 +139,7 @@ for pl = 4:-1:1
 end
 for pl = 4:-1:1
     axes('units','centimeters','position', [margin+(pl-1)*(space+sz) margin sz sz/2])
-    histogram(bpPerPlate(pl).bp.statistics.Qb_values.random_values,'FaceColor',pltMap(pl+1,:))
+    hstMod(pl).hst = histogram(bpPerPlate(pl).bp.statistics.Qb_values.random_values,'FaceColor',pltMap(pl+1,:));
     ylim([0 1000]);
     xline(bpPerPlate(pl).bp.community.Qb,'r-','linewidth',2);
     pval_mod = sum(bpPerPlate(pl).bp.statistics.Qb_values.random_values>=bpPerPlate(pl).bp.community.Qb)/randomMatsPerPlate;
@@ -155,4 +155,13 @@ for pl = 4:-1:1
     end
 end
 print([bp_figure_location f 'SuppFigure7'], '-dpng','-r300')
+
+% Save source data
+for pl = 4:-1:1
+    strctSupp7b.(['Rep' num2str(pl) '_BinEdges']) = hstNest(pl).hst.BinEdges';
+    strctSupp7b.(['Rep' num2str(pl) '_Nest']) = hstNest(pl).hst.Values';
+    strctSupp7d.(['Rep' num2str(pl) '_BinEdges']) = hstMod(pl).hst.BinEdges';
+    strctSupp7d.(['Rep' num2str(pl) '_Mod']) = hstMod(pl).hst.Values';
+end
+save(['output_files' f 'sourceData' f 'SuppFig7_bd.mat'],'strctSupp7b','strctSupp7d');
 toc

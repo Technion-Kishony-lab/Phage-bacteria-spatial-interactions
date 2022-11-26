@@ -146,7 +146,7 @@ linkaxes([ax_den_bac,ax_mat],'x');
 
 % for source data file
 phenMatLogTrans = phenMatLog';
-save(['output_files' f 'Fig2a.mat'],'phenMatLogTrans');
+save(['output_files' f 'sourceData' f 'Fig2a.mat'],'phenMatLogTrans');
 
 % Add colorbars
 barH = mat_h/30;
