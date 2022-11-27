@@ -17,6 +17,9 @@ end
 if ~exist(['..' f 'script_data'],'dir')
     mkdir(['..' f 'script_data'])
 end
+if ~exist(['output_files' f 'sourceData'],'dir')
+    mkdir(['output_files' f 'sourceData'])
+end
 %% Set definitions and parameters
 prefix_Phage = 'Sample_'; % prefix for phage sample names
 prefix_Bac = 'Sample_Bac_'; % prefix for bacterial sample names
