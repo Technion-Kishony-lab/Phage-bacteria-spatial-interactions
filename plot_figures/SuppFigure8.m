@@ -74,7 +74,11 @@ if ~exist([saveFile '.mat'],'file')
         ingeneSNPsInd = find((strcmp(genInfo.mutType,'SNP-NonSyn') | strcmp(genInfo.mutType,'SNP-Syn'))...
             & ~genInfo.preexisting_loci);
         ingeneSNPs = genInfo.Call(ingeneSNPsInd);
-        gen = genInfo(ingeneSNPsInd,find(strcmp(genInfo.Properties.VariableNames,'genotype_ 1')):end);     
+        if org == 1
+            gen = genInfo(ingeneSNPsInd,find(strcmp(genInfo.Properties.VariableNames,'genotype_ 1')):end);     
+        else
+            gen = genInfo(ingeneSNPsInd,find(strcmp(genInfo.Properties.VariableNames,'genotype_  1')):end);    
+        end
         transitions = ismember(ingeneSNPs,transitionPool);
         transversions = ismember(ingeneSNPs,transversionPool);
         % find number of replicates:
