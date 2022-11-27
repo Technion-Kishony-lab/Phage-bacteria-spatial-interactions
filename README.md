@@ -6,8 +6,9 @@ All scripts were coded with MATLAB R2020a on a Windows 10 Enterprise 64-bit Oper
 MATLAB Statistics and Machine Learning Toolbox is required.
 
 Instructions: 
-1. Download all files from https://github.com/Technion-Kishony-lab/Phage-bacteria-spatial-interactions.git and place in a "scripts" folder.
+1. Download all files from https://github.com/Technion-Kishony-lab/Phage-bacteria-spatial-interactions.git and place in a "scripts" folder. 
 2. Extract "Additional_scripts".
+	Git repositiry content should be directly under "scripts". (for example, scripts\main.m , scripts\Additional_scripts\...)
 3. Download all raw data files from Zenodo:
 	10.5281/zenodo.7347986
 	About 60GB of storage space is required. 
