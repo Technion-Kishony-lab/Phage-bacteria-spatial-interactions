@@ -5,7 +5,7 @@
 fprintf('Printing Figure 3 - Lasso\n');
 f = filesep;
 fig_data_location = 'output_files';
-fig_location = 'Figs';
+figure_location = 'Figs';
 pwClrMapFile = [fig_data_location f 'pathwayClrMap.mat'];
 clrTblFile = ['..' f 'input_files' f 'PathwayTables' f 'colorBlindPalete.xlsx'];
 %% parameters
@@ -390,7 +390,8 @@ text(leg_phgTit_x,leg_tit_h,'\underline{Phage Pathways}','color','k','fontSize',
 for pLeg = 1:numel(phgLegend)
     text(ax_legend_phg,leg_phgTit_x+0.07,leg_tit_h-0.045-0.092*pLeg,phgLegend{pLeg},...
         'color',phgPwsClrMap(clrCode(pLeg),:),'fontSize',pw_fs)
-    rectangle(ax_legend_phg,'Position',[leg_phgTit_x,leg_tit_h-0.045-0.092*pLeg-0.05,0.05, 0.1],'FaceColor',bacPwsClrMap(clrCode(pLeg),:),...
+    rectangle(ax_legend_phg,'Position',[leg_phgTit_x,leg_tit_h-0.045-0.092*pLeg-0.05,0.05, 0.1],...
+        'FaceColor',phgPwsClrMap(clrCode(pLeg),:),...
             'EdgeColor','none');
 end
 if addMultipleManually
@@ -412,7 +413,7 @@ save(pwClrMapFile,'bacPwsClrMap','phgPwsClrMap','bac_pw','phg_pw');
 
 set(gcf,'renderer','painters')
 print([figure_location f 'Figure3'],'-depsc2','-r300')
-print([fig_location f 'Figure3'],'-dpng','-r300');
+print([figure_location f 'Figure3'],'-dpng','-r300');
 
 % save source data
 writetable(struct2table(sourceDataTblA),['output_files' f 'sourceData' f 'Fig3A.xlsx'])
@@ -589,7 +590,8 @@ text(leg_phgTit_x,leg_tit_h,'\underline{Phage Pathways}','color','k','fontSize',
 for pLeg = 1:numel(phgLegend)
     text(ax_legend_phg,leg_phgTit_x+0.1,leg_tit_h-0.045-0.092*pLeg,phgLegend{pLeg},...
         'color',phgPwsClrMap(clrCode(pLeg),:),'fontSize',pw_fs)
-    rectangle(ax_legend_phg,'Position',[leg_phgTit_x,leg_tit_h-0.045-0.092*pLeg-0.05,0.05, 0.1],'FaceColor',bacPwsClrMap(clrCode(pLeg),:),...
+    rectangle(ax_legend_phg,'Position',[leg_phgTit_x,leg_tit_h-0.045-0.092*pLeg-0.05,0.05, 0.1],...
+        'FaceColor',phgPwsClrMap(clrCode(pLeg),:),...
             'EdgeColor','none');
 end
 
@@ -600,6 +602,6 @@ annotation('textbox',[ddx+dx+spaceX+eps y_arr+0.005 bardX/2-2*spaceX test_ht],'S
 annotation('arrow',[ddx+dx+bardX/2+spaceX ddx+dx+bardX-spaceX],[y_arr y_arr])
 annotation('textbox',[ddx+dx+bardX/2+spaceX-eps y_arr+0.005 bardX/2-2*spaceX test_ht],'String','Higher Infectivity','HorizontalAlignment','center','EdgeColor','none')
 
-print([fig_location f 'Figure3_fullMutationNames'],'-dpng','-r300');
+print([figure_location f 'Figure3_fullMutationNames'],'-dpng','-r300');
 
 
